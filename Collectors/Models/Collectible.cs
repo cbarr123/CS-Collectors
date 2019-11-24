@@ -15,6 +15,10 @@ namespace Collectors.Models
 
         [Required]
         public DateTime CollectedDate { get; set; }
+        public Collectible()
+        {
+            CollectedDate = DateTime.Now;
+        }
 
         public int CollectionId { get; set; }
         public Collection Collection { get; set; }

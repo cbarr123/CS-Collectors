@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using Collectors.Data;
 using Collectors.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Collectors.Controllers
 {
+    [Authorize]
     public class CollectiblesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -25,7 +27,10 @@ namespace Collectors.Controllers
         // GET: Collectibles
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Collectibles.Include(c => c.Collection);
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var applicationDbContext = _context.Collectibles
+                                               .Include(c => c.Collection);
+
             return View(await applicationDbContext.ToListAsync());
         }
 
